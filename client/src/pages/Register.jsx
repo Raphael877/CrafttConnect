@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, AlertCircle, Hammer, Users } from 'lucide-react';
 import axios from 'axios';
+import API_URL from '../config';
 
 const AuthContainer = styled.div`
   min-height: 100vh;
@@ -150,7 +151,7 @@ const Register = () => {
     setError('');
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const { data } = await axios.post(`${API_URL}/api/auth/register`, formData);
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate('/dashboard');
     } catch (err) {

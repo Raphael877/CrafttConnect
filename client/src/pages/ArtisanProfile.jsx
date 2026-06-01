@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Star, MapPin, MessageSquare, Phone, CheckCircle, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import API_URL from '../config';
 
 const ProfileContainer = styled.div`
   padding-top: 80px;
@@ -149,7 +150,7 @@ const ArtisanProfile = () => {
   useEffect(() => {
     const fetchArtisan = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/artisans/${id}`);
+        const { data } = await axios.get(`${API_URL}/api/artisans/${id}`);
         setArtisan(data);
       } catch (err) {
         console.error(err);

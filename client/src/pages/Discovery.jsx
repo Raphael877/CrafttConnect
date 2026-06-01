@@ -4,6 +4,7 @@ import { Search, Filter, Map as MapIcon, Grid, MapPin, Star } from 'lucide-react
 import axios from 'axios';
 import MapComponent from '../components/MapComponent';
 import { motion } from 'framer-motion';
+import API_URL from '../config';
 
 const DiscoveryContainer = styled.div`
   padding: 100px 2rem 2rem;
@@ -157,7 +158,7 @@ const Discovery = () => {
   useEffect(() => {
     const fetchArtisans = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/artisans', { params: filters });
+        const { data } = await axios.get(`${API_URL}/api/artisans`, { params: filters });
         setArtisans(data);
       } catch (err) {
         console.error(err);

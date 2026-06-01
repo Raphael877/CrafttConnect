@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Send, User as UserIcon, Shield } from 'lucide-react';
 import io from 'socket.io-client';
 import axios from 'axios';
+import API_URL from '../config';
 
 const ChatContainer = styled.div`
   padding-top: 80px;
@@ -97,7 +98,7 @@ const Chat = () => {
   const chatId = [user?._id, recipientId].sort().join('_');
 
   useEffect(() => {
-    socket.current = io('http://localhost:5000');
+    socket.current = io(API_URL);
     socket.current.emit('join_room', chatId);
 
     socket.current.on('receive_message', (data) => {
@@ -110,7 +111,7 @@ const Chat = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/chat/${chatId}`, {
+        const { data } = await axios.get(`${API_URL}/api/chat/${chatId}`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setMessages(data);
@@ -133,7 +134,7 @@ const Chat = () => {
     socket.current.emit('send_message', messageData);
 
     try {
-      await axios.post('http://localhost:5000/api/chat', { recipientId, text, chatId }, {
+      await axios.post(`${API_URL}/api/chat`, { recipientId, text, chatId }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setText('');
