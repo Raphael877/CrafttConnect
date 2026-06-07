@@ -5,6 +5,7 @@ import axios from 'axios';
 import MapComponent from '../components/MapComponent';
 import { motion } from 'framer-motion';
 import API_URL from '../config';
+import { Link } from "react-router-dom";
 
 const DiscoveryContainer = styled.div`
   padding: 100px 2rem 2rem;

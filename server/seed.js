@@ -80,15 +80,27 @@ const artisans = [
   }
 ];
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/craftconnect')
-  .then(async () => {
-    console.log('Connected to MongoDB for seeding...');
+const seedDB = async () => {
+  try {
     await User.deleteMany({ email: { $in: artisans.map(a => a.email) } });
     await User.create(artisans);
     console.log('Seed data inserted successfully');
-    process.exit();
-  })
-  .catch(err => {
+  } catch (err) {
     console.error('Seeding error:', err);
-    process.exit(1);
-  });
+  }
+};
+
+module.exports = seedDB;
+
+if (require.main === module) {
+  mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/craftconnect')
+    .then(async () => {
+      console.log('Connected to MongoDB for seeding...');
+      await seedDB();
+      process.exit();
+    })
+    .catch(err => {
+      console.error('Seeding error:', err);
+      process.exit(1);
+    });
+}
