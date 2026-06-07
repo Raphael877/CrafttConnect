@@ -13,6 +13,8 @@ const Discovery = React.lazy(() => import('./pages/Discovery'));
 const ArtisanProfile = React.lazy(() => import('./pages/ArtisanProfile'));
 const Chat = React.lazy(() => import('./pages/Chat'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const ForgotPassword = React.lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = React.lazy(() => import('./pages/ResetPassword'));
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
             <Route path="/artisan/:id" element={<ArtisanProfile />} />
             <Route path="/chat/:id" element={<Chat />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
           </Routes>
         </React.Suspense>
       </Router>

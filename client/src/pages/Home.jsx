@@ -31,13 +31,14 @@ const HeroContent = styled(motion.div)`
 `;
 
 const Title = styled.h1`
-  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
   margin-bottom: 1.5rem;
   line-height: 1.1;
   font-weight: 800;
   
   span {
     background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.accent});
+    background-clip: padding-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

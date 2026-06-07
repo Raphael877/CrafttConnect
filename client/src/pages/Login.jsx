@@ -55,6 +55,25 @@ const Label = styled.label`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+const LabelWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ForgotPasswordLink = styled(Link)`
+  font-size: 0.85rem;
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primaryHover};
+    text-decoration: underline;
+  }
+`;
+
 const InputField = styled.div`
   display: flex;
   align-items: center;
@@ -186,7 +205,10 @@ const Login = () => {
           </InputWrapper>
 
           <InputWrapper>
-            <Label>Password</Label>
+            <LabelWrapper>
+              <Label>Password</Label>
+              <ForgotPasswordLink to="/forgot-password">Forgot password?</ForgotPasswordLink>
+            </LabelWrapper>
             <InputField>
               <Lock size={18} />
               <input 

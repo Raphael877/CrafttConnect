@@ -26,7 +26,10 @@ const NavContainer = styled.div`
   align-items: center;
   width: 100%;
   max-width: 1200px;
-  padding: 0 2rem;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const NavLogo = styled(Link)`
@@ -36,7 +39,6 @@ const NavLogo = styled(Link)`
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   
   span {
     color: ${({ theme }) => theme.colors.primary};
