@@ -8,4 +8,9 @@ const ReviewSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+const { saveBackup } = require('../utils/persistence');
+ReviewSchema.post('save', async function() {
+  await saveBackup();
+});
+
 module.exports = mongoose.model('Review', ReviewSchema);

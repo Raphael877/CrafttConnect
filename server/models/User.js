@@ -49,4 +49,9 @@ UserSchema.methods.comparePassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+const { saveBackup } = require('../utils/persistence');
+UserSchema.post('save', async function() {
+  await saveBackup();
+});
+
 module.exports = mongoose.model('User', UserSchema);

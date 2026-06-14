@@ -145,20 +145,25 @@ const ReviewCard = styled.div`
 const ArtisanProfile = () => {
   const { id } = useParams();
   const [artisan, setArtisan] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchArtisan = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${API_URL}/api/artisans/${id}`);
-        setArtisan(data);
+        const [artisanRes, reviewsRes] = await Promise.all([
+          axios.get(`${API_URL}/api/artisans/${id}`),
+          axios.get(`${API_URL}/api/reviews/artisan/${id}`)
+        ]);
+        setArtisan(artisanRes.data);
+        setReviews(reviewsRes.data);
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
-    fetchArtisan();
+    fetchData();
   }, [id]);
 
   if (loading) return <div style={{ paddingTop: '100px', textAlign: 'center' }}>Loading...</div>;
@@ -239,8 +244,36 @@ const ArtisanProfile = () => {
       <Section>
         <SectionTitle><Star size={24} /> Reviews</SectionTitle>
         <p style={{ color: '#94a3b8', marginBottom: '2rem' }}>See what customers are saying about {artisan.name}</p>
-        {/* Review list would go here */}
-        <p style={{ color: '#94a3b8' }}>No reviews yet.</p>
+        
+        {reviews.map((rev) => (
+          <ReviewCard key={rev._id}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                <img 
+                  src={rev.customer?.profilePicture || 'https://via.placeholder.com/300?text=Profile'} 
+                  alt={rev.customer?.name} 
+                  style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }}
+                />
+                <span style={{ fontWeight: 600 }}>{rev.customer?.name}</span>
+              </div>
+              <div style={{ display: 'flex', gap: '0.2rem', color: '#f59e0b' }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star 
+                    key={i} 
+                    size={16} 
+                    fill={i < rev.rating ? '#f59e0b' : 'transparent'} 
+                    color="#f59e0b" 
+                  />
+                ))}
+              </div>
+            </div>
+            <p style={{ color: '#94a3b8', lineHeight: '1.6' }}>{rev.comment}</p>
+            <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '0.8rem' }}>
+              {new Date(rev.createdAt).toLocaleDateString()}
+            </div>
+          </ReviewCard>
+        ))}
+        {reviews.length === 0 && <p style={{ color: '#94a3b8' }}>No reviews yet.</p>}
       </Section>
     </ProfileContainer>
   );

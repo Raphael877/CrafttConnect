@@ -1,0 +1,163 @@
+[
+  {
+    "artisanProfile": {
+      "location": {
+        "coordinates": {
+          "lat": 6.6018,
+          "lng": 3.3515
+        },
+        "state": "Lagos",
+        "city": "Ikeja"
+      },
+      "businessName": "Olu Electricals",
+      "skills": [
+        "Electrician"
+      ],
+      "bio": "Professional electrician with 10 years experience in house wiring and industrial maintenance.",
+      "portfolio": [
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=500&auto=format&fit=crop",
+          "description": "Main electrical box installation",
+          "_id": "6a2eb2fde1a76194f32dbfd7"
+        },
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1558444391-7899b475903b?q=80&w=500&auto=format&fit=crop",
+          "description": "Smart home lighting setup",
+          "_id": "6a2eb2fde1a76194f32dbfd8"
+        }
+      ],
+      "rating": 4.8,
+      "numberOfReviews": 12,
+      "availability": true
+    },
+    "_id": "6a2eb2fde1a76194f32dbfd6",
+    "name": "Olumide Johnson",
+    "email": "olumide@example.com",
+    "password": "$2b$10$sA6uihCuDGhWnn.tIP5RXuQ4nnESssVL7C0/u9MYH1ZjmuW.N1/My",
+    "role": "artisan",
+    "profilePicture": "https://images.unsplash.com/photo-1540560085022-b8d2823c882a?q=80&w=300&h=300&auto=format&fit=crop",
+    "phoneNumber": "08012345678",
+    "createdAt": "2026-06-14T13:56:13.677Z",
+    "__v": 0
+  },
+  {
+    "artisanProfile": {
+      "location": {
+        "coordinates": {
+          "lat": 7.3775,
+          "lng": 3.947
+        },
+        "state": "Ibadan",
+        "city": "Bodija"
+      },
+      "businessName": "Fatima Stitches",
+      "skills": [
+        "Tailor"
+      ],
+      "bio": "Fashion designer and tailor focused on traditional and western attire for all occasions.",
+      "portfolio": [
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1594932224828-b4b059b6f68e?q=80&w=500&auto=format&fit=crop",
+          "description": "Bespoke Ankara Gown",
+          "_id": "6a2eb2fde1a76194f32dbfdc"
+        }
+      ],
+      "rating": 4.7,
+      "numberOfReviews": 15,
+      "availability": true
+    },
+    "_id": "6a2eb2fde1a76194f32dbfdb",
+    "name": "Fatima Yusuf",
+    "email": "fatima@example.com",
+    "password": "$2b$10$w7q.ubTkMPZtlClpllbkCeHFSzhjJpxRkm/0mefV.mqz1pCGHc0h6",
+    "role": "artisan",
+    "profilePicture": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&auto=format&fit=crop",
+    "phoneNumber": "09011223344",
+    "createdAt": "2026-06-14T13:56:13.693Z",
+    "__v": 0
+  },
+  {
+    "artisanProfile": {
+      "location": {
+        "coordinates": {
+          "lat": 9.0765,
+          "lng": 7.3986
+        },
+        "state": "Abuja",
+        "city": "Garki"
+      },
+      "businessName": "Chidi Woodworks",
+      "skills": [
+        "Carpenter"
+      ],
+      "bio": "Master carpenter specializing in bespoke furniture and modern kitchen cabinets.",
+      "portfolio": [
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=500&auto=format&fit=crop",
+          "description": "Custom Mahogany Dining Table",
+          "_id": "6a2eb2fde1a76194f32dbfda"
+        }
+      ],
+      "rating": 4.9,
+      "numberOfReviews": 8,
+      "availability": true
+    },
+    "_id": "6a2eb2fde1a76194f32dbfd9",
+    "name": "Chidi Okoro",
+    "email": "chidi@example.com",
+    "password": "$2b$10$5z/CXR4hnfbuwi/l8Er0iOL.Py13UHy4H6StOND1nZcoFAJOUbHmO",
+    "role": "artisan",
+    "profilePicture": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&h=300&auto=format&fit=crop",
+    "phoneNumber": "07098765432",
+    "createdAt": "2026-06-14T13:56:13.689Z",
+    "__v": 0
+  },
+  {
+    "artisanProfile": {
+      "location": {
+        "state": "",
+        "city": ""
+      },
+      "businessName": "",
+      "skills": [],
+      "bio": "",
+      "rating": 0,
+      "numberOfReviews": 0,
+      "availability": true,
+      "portfolio": []
+    },
+    "_id": "6a2ed635e1facbcd080c5742",
+    "name": "Adankpa Raphael Onah",
+    "email": "ralphpaul877@gmail.com",
+    "password": "$2b$10$LJJUtdJWf4WCwccyVS4MAegrffZC7y4zJ.h5YHRG0cnkd24O.i1sm",
+    "role": "customer",
+    "profilePicture": "",
+    "phoneNumber": "",
+    "createdAt": "2026-06-14T16:26:29.905Z",
+    "__v": 0
+  },
+  {
+    "artisanProfile": {
+      "location": {
+        "state": "",
+        "city": ""
+      },
+      "businessName": "",
+      "skills": [],
+      "bio": "",
+      "rating": 0,
+      "numberOfReviews": 0,
+      "availability": true,
+      "portfolio": []
+    },
+    "_id": "6a2eda39e94eb9139908892d",
+    "name": "Adankpa Raphael Onah",
+    "email": "raphaelpaul877@gmail.com",
+    "password": "$2b$10$Ru7.O6OyNPeTGc7gv58kY.8eL7/iQzLremAi1gj51fI4LSNdon2pa",
+    "role": "artisan",
+    "profilePicture": "",
+    "phoneNumber": "",
+    "createdAt": "2026-06-14T16:43:37.774Z",
+    "__v": 0
+  }
+]

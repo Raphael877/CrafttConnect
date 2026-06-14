@@ -7,6 +7,13 @@ const { Server } = require('socket.io');
 
 dotenv.config();
 
+// Register Mongoose models first
+require('./models/User');
+require('./models/Message');
+require('./models/Review');
+
+const { loadBackup } = require('./utils/persistence');
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -23,6 +30,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/artisans', require('./routes/artisanRoutes'));
 app.use('/api/chat', require('./routes/chatRoutes'));
+app.use('/api/reviews', require('./routes/reviewRoutes'));
 
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/craftconnect';
@@ -30,10 +38,27 @@ const seedDB = require('./seed');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const connectDB = async () => {
+  const setupDatabase = async () => {
+    const fs = require('fs');
+    const path = require('path');
+    const usersBackupPath = path.join(__dirname, 'data/users.json');
+    const User = mongoose.model('User');
+    const userCount = await User.countDocuments({});
+    
+    if (userCount === 0) {
+      if (fs.existsSync(usersBackupPath)) {
+        await loadBackup();
+      } else {
+        await seedDB();
+      }
+    }
+  };
+
   try {
     // Attempt standard connection with a 2-second timeout
     await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 2000 });
     console.log('Connected to MongoDB');
+    await setupDatabase();
   } catch (err) {
     console.log('Local MongoDB connection failed. Starting MongoMemoryServer as fallback...');
     try {
@@ -41,9 +66,7 @@ const connectDB = async () => {
       const mongoUri = mongoServer.getUri();
       await mongoose.connect(mongoUri);
       console.log(`Connected to in-memory MongoDB at ${mongoUri}`);
-      
-      // Seed the in-memory database since it is empty
-      await seedDB();
+      await setupDatabase();
     } catch (fallbackErr) {
       console.error('Failed to start in-memory MongoDB:', fallbackErr);
     }
