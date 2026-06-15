@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
-import axios from 'axios';
-import API_URL from '../config';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { LogIn, Mail, Lock, AlertCircle } from "lucide-react";
+import axios from "axios";
+import API_URL from "../config";
 
 const AuthContainer = styled.div`
   min-height: 100vh;
@@ -151,27 +151,29 @@ const ErrorMsg = styled.div`
 `;
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API_URL}/api/auth/login`, { email, password });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      navigate('/dashboard');
+      const { data } = await axios.post(`${API_URL}/api/auth/login`, {
+        email,
+        password,
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <AuthContainer>
       <AuthCard
@@ -181,51 +183,48 @@ const Login = () => {
       >
         <Title>Welcome Back</Title>
         <Subtitle>Sign in to your CraftConnect account</Subtitle>
-
         {error && (
           <ErrorMsg>
             <AlertCircle size={18} />
             {error}
           </ErrorMsg>
         )}
-
         <Form onSubmit={handleSubmit}>
           <InputWrapper>
             <Label>Email Address</Label>
             <InputField>
               <Mail size={18} />
-              <input 
-                type="email" 
-                placeholder="name@example.com" 
+              <input
+                type="email"
+                placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </InputField>
           </InputWrapper>
-
           <InputWrapper>
             <LabelWrapper>
               <Label>Password</Label>
-              <ForgotPasswordLink to="/forgot-password">Forgot password?</ForgotPasswordLink>
+              <ForgotPasswordLink to="/forgot-password">
+                Forgot password?
+              </ForgotPasswordLink>
             </LabelWrapper>
             <InputField>
               <Lock size={18} />
-              <input 
-                type="password" 
-                placeholder="••••••••" 
+              <input
+                type="password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </InputField>
           </InputWrapper>
-
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? "Signing in..." : "Sign In"}
           </SubmitButton>
         </Form>
-
         <SwitchText>
           Don't have an account? <Link to="/register">Sign up for free</Link>
         </SwitchText>
@@ -233,5 +232,4 @@ const Login = () => {
     </AuthContainer>
   );
 };
-
 export default Login;

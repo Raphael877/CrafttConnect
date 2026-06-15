@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { UserPlus, Mail, Lock, User, AlertCircle, Hammer, Users } from 'lucide-react';
-import axios from 'axios';
-import API_URL from '../config';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  UserPlus,
+  Mail,
+  Lock,
+  User,
+  AlertCircle,
+  Hammer,
+  Users,
+} from "lucide-react";
+import axios from "axios";
+import API_URL from "../config";
 
 const AuthContainer = styled.div`
   min-height: 100vh;
@@ -52,24 +60,29 @@ const RoleSelection = styled.div`
 
 const RoleCard = styled.div`
   padding: 1rem;
-  border: 2px solid ${({ active, theme }) => active ? theme.colors.primary : theme.colors.border};
+  border: 2px solid
+    ${({ active, theme }) =>
+      active ? theme.colors.primary : theme.colors.border};
   border-radius: 16px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  background: ${({ active, theme }) => active ? 'rgba(99, 102, 241, 0.1)' : 'transparent'};
+  background: ${({ active, theme }) =>
+    active ? "rgba(99, 102, 241, 0.1)" : "transparent"};
   transition: all 0.2s ease;
 
   svg {
-    color: ${({ active, theme }) => active ? theme.colors.primary : theme.colors.textMuted};
+    color: ${({ active, theme }) =>
+      active ? theme.colors.primary : theme.colors.textMuted};
   }
 
   span {
     font-size: 0.9rem;
     font-weight: 600;
-    color: ${({ active, theme }) => active ? theme.colors.text : theme.colors.textMuted};
+    color: ${({ active, theme }) =>
+      active ? theme.colors.text : theme.colors.textMuted};
   }
 
   &:hover {
@@ -114,15 +127,23 @@ const SubmitButton = styled.button`
   font-size: 1rem;
   margin-top: 1rem;
   transition: all 0.2s ease;
-  &:hover { background: ${({ theme }) => theme.colors.primaryHover}; transform: translateY(-2px); }
-  &:disabled { opacity: 0.7; }
+  &:hover {
+    background: ${({ theme }) => theme.colors.primaryHover};
+    transform: translateY(-2px);
+  }
+  &:disabled {
+    opacity: 0.7;
+  }
 `;
 
 const SwitchText = styled.p`
   text-align: center;
   margin-top: 2rem;
   color: ${({ theme }) => theme.colors.textMuted};
-  a { color: ${({ theme }) => theme.colors.primary}; font-weight: 600; }
+  a {
+    color: ${({ theme }) => theme.colors.primary};
+    font-weight: 600;
+  }
 `;
 
 const ErrorMsg = styled.div`
@@ -138,24 +159,33 @@ const ErrorMsg = styled.div`
 `;
 
 const Register = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'customer' });
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "customer",
+  });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRoleChange = (role) => setFormData({ ...formData, role });
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API_URL}/api/auth/register`, formData);
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      navigate('/dashboard');
+      const { data } = await axios.post(
+        `${API_URL}/api/auth/register`,
+        formData,
+      );
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -171,15 +201,26 @@ const Register = () => {
         <Title>Create Account</Title>
         <Subtitle>Join CraftConnect and bridge the gap</Subtitle>
 
-        {error && <ErrorMsg><AlertCircle size={18} />{error}</ErrorMsg>}
+        {error && (
+          <ErrorMsg>
+            <AlertCircle size={18} />
+            {error}
+          </ErrorMsg>
+        )}
 
         <Form onSubmit={handleSubmit}>
           <RoleSelection>
-            <RoleCard active={formData.role === 'customer'} onClick={() => handleRoleChange('customer')}>
+            <RoleCard
+              active={formData.role === "customer"}
+              onClick={() => handleRoleChange("customer")}
+            >
               <Users size={24} />
               <span>Customer</span>
             </RoleCard>
-            <RoleCard active={formData.role === 'artisan'} onClick={() => handleRoleChange('artisan')}>
+            <RoleCard
+              active={formData.role === "artisan"}
+              onClick={() => handleRoleChange("artisan")}
+            >
               <Hammer size={24} />
               <span>Artisan</span>
             </RoleCard>
@@ -188,26 +229,43 @@ const Register = () => {
           <InputWrapper>
             <InputField>
               <User size={18} />
-              <input name="name" placeholder="Full Name" onChange={handleChange} required />
+              <input
+                name="name"
+                placeholder="Full Name"
+                onChange={handleChange}
+                required
+              />
             </InputField>
           </InputWrapper>
 
           <InputWrapper>
             <InputField>
               <Mail size={18} />
-              <input name="email" type="email" placeholder="Email Address" onChange={handleChange} required />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email Address"
+                onChange={handleChange}
+                required
+              />
             </InputField>
           </InputWrapper>
 
           <InputWrapper>
             <InputField>
               <Lock size={18} />
-              <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={handleChange}
+                required
+              />
             </InputField>
           </InputWrapper>
 
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? 'Creating Account...' : 'Sign Up'}
+            {loading ? "Creating Account..." : "Sign Up"}
           </SubmitButton>
         </Form>
 
