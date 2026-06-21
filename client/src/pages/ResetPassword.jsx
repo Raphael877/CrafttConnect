@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Lock, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
-import axios from 'axios';
-import API_URL from '../config';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { Lock, AlertCircle, CheckCircle, ArrowLeft } from "lucide-react";
+import axios from "axios";
+import API_URL from "../config";
 
 const AuthContainer = styled.div`
   min-height: 100vh;
@@ -29,7 +29,7 @@ const Title = styled.h2`
   font-size: 2rem;
   margin-bottom: 0.5rem;
   text-align: center;
-  font-family: ${({ theme }) => theme.fonts.heading || 'inherit'};
+  font-family: ${({ theme }) => theme.fonts.heading || "inherit"};
 `;
 
 const Subtitle = styled.p`
@@ -157,35 +157,40 @@ const BackToLogin = styled(Link)`
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError("Password must be at least 6 characters long");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     setLoading(true);
     try {
-      await axios.put(`${API_URL}/api/auth/reset-password/${token}`, { password });
+      await axios.put(`${API_URL}/api/auth/reset-password/${token}`, {
+        password,
+      });
       setSubmitted(true);
       setTimeout(() => {
-        navigate('/login');
+        navigate("/login");
       }, 3000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to reset password. The link may have expired.');
+      setError(
+        err.response?.data?.message ||
+          "Failed to reset password. The link may have expired.",
+      );
     } finally {
       setLoading(false);
     }
@@ -201,7 +206,9 @@ const ResetPassword = () => {
         {!submitted ? (
           <>
             <Title>Reset Password</Title>
-            <Subtitle>Enter your new password below to secure your account.</Subtitle>
+            <Subtitle>
+              Enter your new password below to secure your account.
+            </Subtitle>
 
             {error && (
               <ErrorMsg>
@@ -240,7 +247,7 @@ const ResetPassword = () => {
               </InputWrapper>
 
               <SubmitButton type="submit" disabled={loading}>
-                {loading ? 'Resetting password...' : 'Reset Password'}
+                {loading ? "Resetting password..." : "Reset Password"}
               </SubmitButton>
             </Form>
           </>
@@ -251,7 +258,8 @@ const ResetPassword = () => {
             </SuccessIconWrapper>
             <Title>Password Reset Successful</Title>
             <Subtitle>
-              Your password has been successfully updated. Redirecting you to the sign-in page in a few seconds...
+              Your password has been successfully updated. Redirecting you to
+              the sign-in page in a few seconds...
             </Subtitle>
             <BackToLogin to="/login">
               <ArrowLeft size={16} />

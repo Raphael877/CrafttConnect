@@ -138,12 +138,15 @@
   },
   {
     "artisanProfile": {
-      "location": {
-        "state": "",
-        "city": ""
+      "location": {"coordinates": {
+          "lat": 6.6018,
+          "lng": 3.3515
+        },
+        "state": "Lagos",
+        "city": "Ajegunle"
       },
-      "businessName": "",
-      "skills": [],
+      "businessName": "Raphclusive designz",
+      "skills": ["Fashion Designer"],
       "bio": "",
       "rating": 0,
       "numberOfReviews": 0,
@@ -156,7 +159,7 @@
     "password": "$2b$10$Ru7.O6OyNPeTGc7gv58kY.8eL7/iQzLremAi1gj51fI4LSNdon2pa",
     "role": "artisan",
     "profilePicture": "",
-    "phoneNumber": "",
+    "phoneNumber": "09161816216",
     "createdAt": "2026-06-14T16:43:37.774Z",
     "__v": 0
   }

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import { Send, User as UserIcon, Shield } from 'lucide-react';
-import io from 'socket.io-client';
-import axios from 'axios';
-import API_URL from '../config';
+import React, { useState, useEffect, useRef } from "react";
+import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import { Send, User as UserIcon, Shield } from "lucide-react";
+import io from "socket.io-client";
+import axios from "axios";
+import API_URL from "../config";
 
 const ChatContainer = styled.div`
   padding-top: 80px;
@@ -21,7 +21,7 @@ const ChatHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  
+
   .status {
     display: flex;
     align-items: center;
@@ -46,11 +46,12 @@ const MessageBubble = styled.div`
   border-radius: 20px;
   font-size: 1rem;
   line-height: 1.5;
-  align-self: ${({ isMe }) => isMe ? 'flex-end' : 'flex-start'};
-  background: ${({ isMe, theme }) => isMe ? theme.colors.primary : theme.colors.surface};
-  color: ${({ isMe }) => isMe ? 'white' : 'inherit'};
-  border-bottom-right-radius: ${({ isMe }) => isMe ? '4px' : '20px'};
-  border-bottom-left-radius: ${({ isMe }) => isMe ? '20px' : '4px'};
+  align-self: ${({ isMe }) => (isMe ? "flex-end" : "flex-start")};
+  background: ${({ isMe, theme }) =>
+    isMe ? theme.colors.primary : theme.colors.surface};
+  color: ${({ isMe }) => (isMe ? "white" : "inherit")};
+  border-bottom-right-radius: ${({ isMe }) => (isMe ? "4px" : "20px")};
+  border-bottom-left-radius: ${({ isMe }) => (isMe ? "20px" : "4px")};
   box-shadow: ${({ theme }) => theme.shadows.sm};
 `;
 
@@ -71,7 +72,9 @@ const TextInput = styled.input`
   color: white;
   outline: none;
   font-size: 1rem;
-  &:focus { border-color: ${({ theme }) => theme.colors.primary}; }
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 const SendButton = styled.button`
@@ -84,24 +87,29 @@ const SendButton = styled.button`
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  &:hover { background: ${({ theme }) => theme.colors.primaryHover}; transform: scale(1.05); }
+  &:hover {
+    background: ${({ theme }) => theme.colors.primaryHover};
+    transform: scale(1.05);
+  }
 `;
 
 const Chat = () => {
   const { id: recipientId } = useParams();
   const [messages, setMessages] = useState([]);
-  const [text, setText] = useState('');
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('userInfo')));
+  const [text, setText] = useState("");
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("userInfo")),
+  );
   const socket = useRef();
   const scrollRef = useRef();
 
-  const chatId = [user?._id, recipientId].sort().join('_');
+  const chatId = [user?._id, recipientId].sort().join("_");
 
   useEffect(() => {
     socket.current = io(API_URL);
-    socket.current.emit('join_room', chatId);
+    socket.current.emit("join_room", chatId);
 
-    socket.current.on('receive_message', (data) => {
+    socket.current.on("receive_message", (data) => {
       setMessages((prev) => [...prev, data]);
     });
 
@@ -112,7 +120,7 @@ const Chat = () => {
     const fetchMessages = async () => {
       try {
         const { data } = await axios.get(`${API_URL}/api/chat/${chatId}`, {
-          headers: { Authorization: `Bearer ${user.token}` }
+          headers: { Authorization: `Bearer ${user.token}` },
         });
         setMessages(data);
       } catch (err) {
@@ -123,49 +131,89 @@ const Chat = () => {
   }, [chatId, user]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSend = async (e) => {
     e.preventDefault();
     if (!text.trim()) return;
 
-    const messageData = { room: chatId, sender: user._id, text, timestamp: new Date() };
-    socket.current.emit('send_message', messageData);
+    const messageData = {
+      room: chatId,
+      sender: user._id,
+      text,
+      timestamp: new Date(),
+    };
+    socket.current.emit("send_message", messageData);
 
     try {
-      await axios.post(`${API_URL}/api/chat`, { recipientId, text, chatId }, {
-        headers: { Authorization: `Bearer ${user.token}` }
-      });
-      setText('');
+      await axios.post(
+        `${API_URL}/api/chat`,
+        { recipientId, text, chatId },
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        },
+      );
+      setText("");
     } catch (err) {
       console.error(err);
     }
   };
 
-  if (!user) return <div style={{ paddingTop: '100px', textAlign: 'center' }}>Please login to chat.</div>;
+  if (!user)
+    return (
+      <div style={{ paddingTop: "100px", textAlign: "center" }}>
+        Please login to chat.
+      </div>
+    );
 
   return (
     <ChatContainer>
       <ChatHeader>
-        <div style={{ padding: '0.5rem', background: '#334155', borderRadius: '10px' }}>
+        <div
+          style={{
+            padding: "0.5rem",
+            background: "#334155",
+            borderRadius: "10px",
+          }}
+        >
           <UserIcon size={24} />
         </div>
         <div>
-          <h3 style={{ fontSize: '1.1rem' }}>Artisan Chat</h3>
-          <div className="status"><div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981' }} /> Online</div>
+          <h3 style={{ fontSize: "1.1rem" }}>Artisan Chat</h3>
+          <div className="status">
+            <div
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: "#10b981",
+              }}
+            />{" "}
+            Online
+          </div>
         </div>
       </ChatHeader>
 
       <MessagesArea>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <Shield size={16} color="#94a3b8" />
-          <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.5rem' }}>
-            Messages are secure and private. Never share personal sensitive information.
+          <p
+            style={{
+              fontSize: "0.8rem",
+              color: "#94a3b8",
+              marginTop: "0.5rem",
+            }}
+          >
+            Messages are secure and private. Never share personal sensitive
+            information.
           </p>
         </div>
         {messages.map((msg, index) => (
-          <MessageBubble key={index} isMe={msg.sender === user._id || msg.sender._id === user._id}>
+          <MessageBubble
+            key={index}
+            isMe={msg.sender === user._id || msg.sender._id === user._id}
+          >
             {msg.text}
           </MessageBubble>
         ))}
@@ -173,9 +221,9 @@ const Chat = () => {
       </MessagesArea>
 
       <InputArea onSubmit={handleSend}>
-        <TextInput 
-          placeholder="Type your message..." 
-          value={text} 
+        <TextInput
+          placeholder="Type your message..."
+          value={text}
           onChange={(e) => setText(e.target.value)}
         />
         <SendButton type="submit">

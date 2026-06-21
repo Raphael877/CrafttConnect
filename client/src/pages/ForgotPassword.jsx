@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Mail, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
-import axios from 'axios';
-import API_URL from '../config';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Mail, AlertCircle, CheckCircle, ArrowLeft } from "lucide-react";
+import axios from "axios";
+import API_URL from "../config";
 
 const AuthContainer = styled.div`
   min-height: 100vh;
@@ -29,7 +29,7 @@ const Title = styled.h2`
   font-size: 2rem;
   margin-bottom: 0.5rem;
   text-align: center;
-  font-family: ${({ theme }) => theme.fonts.heading || 'inherit'};
+  font-family: ${({ theme }) => theme.fonts.heading || "inherit"};
 `;
 
 const Subtitle = styled.p`
@@ -191,24 +191,29 @@ const DevBlock = styled.div`
 `;
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [devLink, setDevLink] = useState('');
+  const [devLink, setDevLink] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API_URL}/api/auth/forgot-password`, { email });
+      const { data } = await axios.post(`${API_URL}/api/auth/forgot-password`, {
+        email,
+      });
       setSubmitted(true);
       if (data.resetUrl) {
         setDevLink(data.resetUrl);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong. Please try again.');
+      setError(
+        err.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -225,7 +230,8 @@ const ForgotPassword = () => {
           <>
             <Title>Forgot Password</Title>
             <Subtitle>
-              Enter the email address associated with your account, and we will help you reset your password.
+              Enter the email address associated with your account, and we will
+              help you reset your password.
             </Subtitle>
 
             {error && (
@@ -251,7 +257,7 @@ const ForgotPassword = () => {
               </InputWrapper>
 
               <SubmitButton type="submit" disabled={loading}>
-                {loading ? 'Sending link...' : 'Send Reset Link'}
+                {loading ? "Sending link..." : "Send Reset Link"}
               </SubmitButton>
             </Form>
           </>
@@ -262,13 +268,17 @@ const ForgotPassword = () => {
             </SuccessIconWrapper>
             <Title>Check Your Email</Title>
             <Subtitle>
-              If an account exists for <strong>{email}</strong>, we have sent a link to reset your password.
+              If an account exists for <strong>{email}</strong>, we have sent a
+              link to reset your password.
             </Subtitle>
 
             {devLink && (
               <DevBlock>
                 <h4>Dev Mode Helper</h4>
-                <p>Since we are in development and SMTP mailing is simulated, here is your generated reset link:</p>
+                <p>
+                  Since we are in development and SMTP mailing is simulated,
+                  here is your generated reset link:
+                </p>
                 <a href={devLink}>{devLink}</a>
               </DevBlock>
             )}

@@ -197,7 +197,7 @@ const Home = () => {
           </Title>
           <Subtitle>
             The premium marketplace to find, hire, and manage professional services. 
-            From Lagos to Abuja, we bridge the gap between quality and reliability.
+            In Nigeria, we bridge the gap between quality and reliability.
           </Subtitle>
 
           <SearchContainer>
