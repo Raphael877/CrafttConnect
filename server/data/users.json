@@ -3,11 +3,11 @@
     "artisanProfile": {
       "location": {
         "coordinates": {
-          "lat": 6.6018,
-          "lng": 3.3515
+          "lat": 6.4711251,
+          "lng": 3.8147504
         },
         "state": "Lagos",
-        "city": "Ikeja"
+        "city": "Lekki"
       },
       "businessName": "Olu Electricals",
       "skills": [
@@ -24,6 +24,11 @@
           "imageUrl": "https://images.unsplash.com/photo-1558444391-7899b475903b?q=80&w=500&auto=format&fit=crop",
           "description": "Smart home lighting setup",
           "_id": "6a2eb2fde1a76194f32dbfd8"
+        },
+        {
+          "imageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+          "description": "Test Project Upload",
+          "_id": "6a37f2cc2ebfe9a98b8a3ef7"
         }
       ],
       "rating": 4.8,
@@ -35,10 +40,10 @@
     "email": "olumide@example.com",
     "password": "$2b$10$sA6uihCuDGhWnn.tIP5RXuQ4nnESssVL7C0/u9MYH1ZjmuW.N1/My",
     "role": "artisan",
-    "profilePicture": "https://images.unsplash.com/photo-1540560085022-b8d2823c882a?q=80&w=300&h=300&auto=format&fit=crop",
+    "profilePicture": "https://images.unsplash.com/photo-test",
     "phoneNumber": "08012345678",
     "createdAt": "2026-06-14T13:56:13.677Z",
-    "__v": 0
+    "__v": 1
   },
   {
     "artisanProfile": {
@@ -138,7 +143,8 @@
   },
   {
     "artisanProfile": {
-      "location": {"coordinates": {
+      "location": {
+        "coordinates": {
           "lat": 6.6018,
           "lng": 3.3515
         },
@@ -146,7 +152,9 @@
         "city": "Ajegunle"
       },
       "businessName": "Raphclusive designz",
-      "skills": ["Fashion Designer"],
+      "skills": [
+        "Fashion Designer"
+      ],
       "bio": "",
       "rating": 0,
       "numberOfReviews": 0,

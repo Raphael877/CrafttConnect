@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "server/data/*",
+    "server/data/*.json",
+    "server/data/users.json",
+    "server/data/messages.json",
+    "server/data/reviews.json"
+  ]
+}

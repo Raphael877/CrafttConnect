@@ -46,7 +46,18 @@ const loadBackup = async () => {
     if (userCount === 0 && fs.existsSync(USERS_PATH)) {
       const usersData = JSON.parse(fs.readFileSync(USERS_PATH, 'utf8'));
       if (usersData && usersData.length > 0) {
-        await User.collection.insertMany(usersData);
+        const usersMapped = usersData.map(u => {
+          const doc = { ...u };
+          if (doc._id) doc._id = new mongoose.Types.ObjectId(doc._id);
+          if (doc.artisanProfile && doc.artisanProfile.portfolio) {
+            doc.artisanProfile.portfolio = doc.artisanProfile.portfolio.map(p => ({
+              ...p,
+              _id: p._id ? new mongoose.Types.ObjectId(p._id) : new mongoose.Types.ObjectId()
+            }));
+          }
+          return doc;
+        });
+        await User.collection.insertMany(usersMapped);
         console.log(`Restored ${usersData.length} users from backup.`);
       }
     }
@@ -55,7 +66,14 @@ const loadBackup = async () => {
     if (messageCount === 0 && fs.existsSync(MESSAGES_PATH)) {
       const messagesData = JSON.parse(fs.readFileSync(MESSAGES_PATH, 'utf8'));
       if (messagesData && messagesData.length > 0) {
-        await Message.collection.insertMany(messagesData);
+        const messagesMapped = messagesData.map(m => {
+          const doc = { ...m };
+          if (doc._id) doc._id = new mongoose.Types.ObjectId(doc._id);
+          if (doc.sender) doc.sender = new mongoose.Types.ObjectId(doc.sender);
+          if (doc.recipient) doc.recipient = new mongoose.Types.ObjectId(doc.recipient);
+          return doc;
+        });
+        await Message.collection.insertMany(messagesMapped);
         console.log(`Restored ${messagesData.length} messages from backup.`);
       }
     }
@@ -64,7 +82,14 @@ const loadBackup = async () => {
     if (reviewCount === 0 && fs.existsSync(REVIEWS_PATH)) {
       const reviewsData = JSON.parse(fs.readFileSync(REVIEWS_PATH, 'utf8'));
       if (reviewsData && reviewsData.length > 0) {
-        await Review.collection.insertMany(reviewsData);
+        const reviewsMapped = reviewsData.map(r => {
+          const doc = { ...r };
+          if (doc._id) doc._id = new mongoose.Types.ObjectId(doc._id);
+          if (doc.artisan) doc.artisan = new mongoose.Types.ObjectId(doc.artisan);
+          if (doc.customer) doc.customer = new mongoose.Types.ObjectId(doc.customer);
+          return doc;
+        });
+        await Review.collection.insertMany(reviewsMapped);
         console.log(`Restored ${reviewsData.length} reviews from backup.`);
       }
     }

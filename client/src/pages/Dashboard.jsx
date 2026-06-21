@@ -447,6 +447,17 @@ const ReviewCard = styled.div`
   }
 `;
 
+const Card = styled.div`
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+`;
+
 const ConversationItem = styled.div`
   display: flex;
   align-items: center;

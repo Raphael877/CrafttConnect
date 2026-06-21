@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const { getCoordinates } = require('../utils/geocoder');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || 'secret_key', { expiresIn: '30d' });
@@ -130,21 +131,46 @@ exports.updateUserProfile = async (req, res) => {
       // If user is artisan, also update artisanProfile fields if provided
       if (user.role === 'artisan') {
         const { businessName, skills, bio, location, availability, portfolio } = req.body;
-        if (user.artisanProfile) {
-          if (businessName !== undefined) user.artisanProfile.businessName = businessName;
-          if (skills !== undefined) user.artisanProfile.skills = skills;
-          if (bio !== undefined) user.artisanProfile.bio = bio;
-          if (portfolio !== undefined) user.artisanProfile.portfolio = portfolio;
-          
-          if (location) {
-            if (location.state !== undefined) user.artisanProfile.location.state = location.state;
-            if (location.city !== undefined) user.artisanProfile.location.city = location.city;
-            if (location.coordinates) {
-              user.artisanProfile.location.coordinates = location.coordinates;
-            }
-          }
-          if (availability !== undefined) user.artisanProfile.availability = availability;
+        if (!user.artisanProfile) {
+          user.artisanProfile = {
+            businessName: '',
+            skills: [],
+            bio: '',
+            location: { state: '', city: '', coordinates: { lat: 6.5244, lng: 3.3792 } },
+            portfolio: [],
+            rating: 0,
+            numberOfReviews: 0,
+            availability: true
+          };
         }
+
+        if (businessName !== undefined) user.artisanProfile.businessName = businessName;
+        if (skills !== undefined) user.artisanProfile.skills = skills;
+        if (bio !== undefined) user.artisanProfile.bio = bio;
+        if (portfolio !== undefined) user.artisanProfile.portfolio = portfolio;
+        
+        if (location) {
+          if (!user.artisanProfile.location) {
+            user.artisanProfile.location = { state: '', city: '', coordinates: { lat: 6.5244, lng: 3.3792 } };
+          }
+          
+          const stateChanged = location.state !== undefined && location.state !== user.artisanProfile.location.state;
+          const cityChanged = location.city !== undefined && location.city !== user.artisanProfile.location.city;
+          
+          if (location.state !== undefined) user.artisanProfile.location.state = location.state;
+          if (location.city !== undefined) user.artisanProfile.location.city = location.city;
+          
+          if (stateChanged || cityChanged) {
+            // Geocode and update coordinates
+            const coords = await getCoordinates(user.artisanProfile.location.city, user.artisanProfile.location.state);
+            if (coords) {
+              user.artisanProfile.location.coordinates = coords;
+            }
+          } else if (location.coordinates) {
+            user.artisanProfile.location.coordinates = location.coordinates;
+          }
+        }
+        if (availability !== undefined) user.artisanProfile.availability = availability;
       }
 
       const updatedUser = await user.save();
