@@ -9,6 +9,8 @@
         "state": "Lagos",
         "city": "Lekki"
       },
+      "rating": 0,
+      "numberOfReviews": 0,
       "businessName": "Olu Electricals",
       "skills": [
         "Electrician"
@@ -31,8 +33,6 @@
           "_id": "6a37f2cc2ebfe9a98b8a3ef7"
         }
       ],
-      "rating": 4.8,
-      "numberOfReviews": 12,
       "availability": true
     },
     "_id": "6a2eb2fde1a76194f32dbfd6",
@@ -151,14 +151,14 @@
         "state": "Lagos",
         "city": "Ajegunle"
       },
-      "businessName": "Raphclusive designz",
-      "skills": [
-        "Fashion Designer"
-      ],
       "bio": "",
       "rating": 0,
       "numberOfReviews": 0,
       "availability": true,
+      "businessName": "Raphclusive designz",
+      "skills": [
+        "Fashion Designer"
+      ],
       "portfolio": []
     },
     "_id": "6a2eda39e94eb9139908892d",
@@ -169,6 +169,6 @@
     "profilePicture": "",
     "phoneNumber": "09161816216",
     "createdAt": "2026-06-14T16:43:37.774Z",
-    "__v": 0
+    "__v": 1
   }
 ]

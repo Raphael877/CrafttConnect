@@ -322,10 +322,10 @@ const Footer = () => {
         <Column>
           <Heading>Popular Services</Heading>
           <LinkList>
-            <li><FooterLink to="/discovery?cat=Electrical">Electrical Repairs</FooterLink></li>
-            <li><FooterLink to="/discovery?cat=Carpentry">Carpentry & Joinery</FooterLink></li>
-            <li><FooterLink to="/discovery?cat=Tailoring">Bespoke Tailoring</FooterLink></li>
-            <li><FooterLink to="/discovery?cat=Plumbing">Plumbing Installation</FooterLink></li>
+            <li><FooterLink style={{transform: "none", transition: "none", color: "#94A3B8"}}>Electrical Repairs</FooterLink></li>
+            <li><FooterLink style={{transform: "none", transition: "none", color: "#94A3B8"}}>Carpentry & Joinery</FooterLink></li>
+            <li><FooterLink style={{transform: "none", transition: "none", color: "#94A3B8"}}>Bespoke Tailoring</FooterLink></li>
+            <li><FooterLink style={{transform: "none", transition: "none", color: "#94A3B8"}}>Plumbing Installation</FooterLink></li>
           </LinkList>
         </Column>
 

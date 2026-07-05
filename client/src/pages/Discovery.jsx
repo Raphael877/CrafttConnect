@@ -149,7 +149,7 @@ const NIGERIA_STATES = [
   "Sokoto", "Taraba", "Yobe", "Zamfara"
 ];
 
-const SKILLS = ["Electrician", "Carpenter", "Tailor", "Plumber", "Painter", "Mechanic", "Hair Dresser", "Shoe Cobbler","Dstv Installer"];
+const SKILLS = ["Electrician", "Carpenter", "Tailor", "Plumber", "Painter", "Mechanic", "Shoe Cobbler", "Dstv Installer", "Hair Stylist", "Welder"];
 
 const Discovery = () => {
   const [view, setView] = useState('grid');

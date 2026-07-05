@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "_id": "6a38439c79fa4e4d4d914345",
+    "artisan": "6a2eb2fde1a76194f32dbfd6",
+    "customer": "6a2ed635e1facbcd080c5742",
+    "rating": 5,
+    "comment": "all good",
+    "createdAt": "2026-06-21T20:03:40.244Z",
+    "__v": 0
+  }
+]

@@ -7,5 +7,23 @@
     "chatId": "6a2eb2fde1a76194f32dbfd9_6a2eda39e94eb9139908892d",
     "timestamp": "2026-06-21T14:33:40.908Z",
     "__v": 0
+  },
+  {
+    "_id": "6a3b91d0ea5c7388ce740791",
+    "sender": "6a2ed635e1facbcd080c5742",
+    "recipient": "6a2eda39e94eb9139908892d",
+    "text": "hi",
+    "chatId": "6a2ed635e1facbcd080c5742_6a2eda39e94eb9139908892d",
+    "timestamp": "2026-06-24T08:14:08.296Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a41290e333adc56f3556125",
+    "sender": "6a2ed635e1facbcd080c5742",
+    "recipient": "6a2eb2fde1a76194f32dbfdb",
+    "text": "hello",
+    "chatId": "6a2eb2fde1a76194f32dbfdb_6a2ed635e1facbcd080c5742",
+    "timestamp": "2026-06-28T14:00:46.158Z",
+    "__v": 0
   }
 ]
