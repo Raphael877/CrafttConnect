@@ -36,7 +36,6 @@ app.use('/api/reviews', require('./routes/reviewRoutes'));
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/craftconnect';
 const seedDB = require('./seed');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const connectDB = async () => {
   const setupDatabase = async () => {
@@ -56,21 +55,13 @@ const connectDB = async () => {
   };
 
   try {
-    // Attempt standard connection with a 2-second timeout
-    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 2000 });
-    console.log('Connected to MongoDB');
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(MONGODB_URI);
+    console.log('Connected to MongoDB successfully.');
     await setupDatabase();
   } catch (err) {
-    console.log('Local MongoDB connection failed. Starting MongoMemoryServer as fallback...');
-    try {
-      const mongoServer = await MongoMemoryServer.create();
-      const mongoUri = mongoServer.getUri();
-      await mongoose.connect(mongoUri);
-      console.log(`Connected to in-memory MongoDB at ${mongoUri}`);
-      await setupDatabase();
-    } catch (fallbackErr) {
-      console.error('Failed to start in-memory MongoDB:', fallbackErr);
-    }
+    console.error('MongoDB connection failed:', err.message);
+    process.exit(1);
   }
 };
 

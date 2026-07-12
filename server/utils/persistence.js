@@ -17,6 +17,12 @@ let isRestoring = false;
 
 const saveBackup = async () => {
   if (isRestoring) return;
+  
+  // Skip local file writes in production or when explicitly disabled
+  if (process.env.NODE_ENV === 'production' || process.env.DISABLE_FILE_BACKUP === 'true') {
+    return;
+  }
+  
   try {
     const User = mongoose.model('User');
     const Message = mongoose.model('Message');

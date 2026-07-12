@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: craftconnect-backend
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    rootDirectory: server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generate: true
+      - key: DISABLE_FILE_BACKUP
+        value: "true"
