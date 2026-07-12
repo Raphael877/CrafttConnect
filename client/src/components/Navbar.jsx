@@ -159,6 +159,15 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  
+  // Track user login state
+  const [user, setUser] = useState(null);
+
+  // Sync state with localStorage on mount and when location changes
+  useEffect(() => {
+    const userInfo = localStorage.getItem('userInfo');
+    setUser(userInfo ? JSON.parse(userInfo) : null);
+  }, [location]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,6 +178,12 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userInfo');
+    setUser(null);
+    toggleMenu();
+  };
 
   return (
     <Nav isScrolled={isScrolled}>
@@ -194,8 +209,14 @@ const Navbar = () => {
         </NavMenu>
 
         <NavButtons>
-          <Button to="/login" className="text">Login</Button>
-          <Button to="/register" className="primary">Get Started</Button>
+          {user ? (
+            <Button to="/login" className="primary" onClick={() => localStorage.removeItem('userInfo')}>Logout</Button>
+          ) : (
+            <>
+              <Button to="/login" className="text">Login</Button>
+              <Button to="/register" className="primary">Get Started</Button>
+            </>
+          )}
         </NavButtons>
       </NavContainer>
 
@@ -210,8 +231,14 @@ const Navbar = () => {
             <NavLinks to="/" onClick={toggleMenu}>Home</NavLinks>
             <NavLinks to="/discovery" onClick={toggleMenu}>Find Artisans</NavLinks>
             <NavLinks to="/dashboard" onClick={toggleMenu}>Dashboard</NavLinks>
-            <Button to="/login" className="text" onClick={toggleMenu}>Login</Button>
-            <Button to="/register" className="primary" onClick={toggleMenu}>Get Started</Button>
+            {user ? (
+              <Button to="/login" className="primary" onClick={handleLogout}>Logout</Button>
+            ) : (
+              <>
+                <Button to="/login" className="text" onClick={toggleMenu}>Login</Button>
+                <Button to="/register" className="primary" onClick={toggleMenu}>Get Started</Button>
+              </>
+            )}
           </MobileMenu>
         )}
       </AnimatePresence>

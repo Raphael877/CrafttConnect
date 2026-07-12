@@ -599,6 +599,28 @@ const Dashboard = () => {
   useEffect(() => {
     if (!user) {
       navigate("/login");
+      return;
+    }
+
+    const fetchUserProfile = async () => {
+      try {
+        const { data } = await axios.get(`${API_URL}/api/auth/profile`, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        const updatedUser = { ...user, ...data };
+        localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      } catch (err) {
+        console.error("Error fetching user profile:", err);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
     } else {
       // Initialize settings form values
       setSettingsForm({
@@ -626,53 +648,47 @@ const Dashboard = () => {
     }
   }, [user, navigate]);
 
-  // Load backend data depending on active tab
+  // Load all backend data on mount or when user changes
   useEffect(() => {
     if (!user) return;
 
-    const loadData = async () => {
+    const loadDashboardData = async () => {
       try {
-        if (activeTab === "messages") {
-          // Fetch chats
-          const resConversations = await axios.get(
-            `${API_URL}/api/chat/conversations`,
-            {
-              headers: { Authorization: `Bearer ${user.token}` },
-            },
-          );
-          setConversations(resConversations.data);
+        // Fetch chats/conversations
+        const resConversations = await axios.get(
+          `${API_URL}/api/chat/conversations`,
+          {
+            headers: { Authorization: `Bearer ${user.token}` },
+          },
+        );
+        setConversations(resConversations.data);
 
-          // Fetch all artisans in case they want to start a new chat
-          const resArtisans = await axios.get(`${API_URL}/api/artisans`);
-          setArtisans(resArtisans.data);
-        } else if (activeTab === "reviews") {
-          // Fetch my reviews
-          const resReviews = await axios.get(
-            `${API_URL}/api/reviews/my-reviews`,
-            {
-              headers: { Authorization: `Bearer ${user.token}` },
-            },
-          );
-          setMyReviews(resReviews.data);
+        // Fetch my reviews
+        const resReviews = await axios.get(
+          `${API_URL}/api/reviews/my-reviews`,
+          {
+            headers: { Authorization: `Bearer ${user.token}` },
+          },
+        );
+        setMyReviews(resReviews.data);
 
-          // If customer, fetch artisans to review
-          if (user.role === "customer") {
-            const resArtisans = await axios.get(`${API_URL}/api/artisans`);
-            setArtisans(resArtisans.data);
-            if (resArtisans.data.length > 0) {
-              setReviewForm((prev) => ({
-                ...prev,
-                artisanId: resArtisans.data[0]._id,
-              }));
-            }
-          }
+        // Fetch all artisans
+        const resArtisans = await axios.get(`${API_URL}/api/artisans`);
+        setArtisans(resArtisans.data);
+
+        // If customer, pre-fill review form's default artisan
+        if (user.role === "customer" && resArtisans.data.length > 0) {
+          setReviewForm((prev) => ({
+            ...prev,
+            artisanId: resArtisans.data[0]._id,
+          }));
         }
       } catch (err) {
-        console.error("Error loading tab data:", err);
+        console.error("Error loading dashboard data:", err);
       }
     };
-    loadData();
-  }, [activeTab, user]);
+    loadDashboardData();
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("userInfo");
@@ -698,6 +714,11 @@ const Dashboard = () => {
   const handleImageFileChange = (e, callback) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        showFeedback("error", "Image file is too large. Maximum allowed size is 10MB.");
+        e.target.value = ""; // clear the input
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         callback(reader.result);
