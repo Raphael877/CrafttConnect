@@ -5,7 +5,8 @@ import axios from 'axios';
 import MapComponent from '../components/MapComponent';
 import { motion } from 'framer-motion';
 import API_URL from '../config';
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+
 
 const DiscoveryContainer = styled.div`
   padding: 100px 2rem 2rem;
@@ -152,9 +153,38 @@ const NIGERIA_STATES = [
 const SKILLS = ["Electrician", "Carpenter", "Tailor", "Plumber", "Painter", "Mechanic", "Shoe Cobbler", "Dstv Installer", "Hair Stylist", "Welder"];
 
 const Discovery = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const skillParam = searchParams.get('skill') || '';
+  const stateParam = searchParams.get('state') || '';
+  const searchParam = searchParams.get('search') || '';
+
   const [view, setView] = useState('grid');
   const [artisans, setArtisans] = useState([]);
-  const [filters, setFilters] = useState({ skill: '', state: '', search: '' });
+  const [filters, setFilters] = useState({
+    skill: skillParam,
+    state: stateParam,
+    search: searchParam
+  });
+
+  // Sync state with URL parameter changes (e.g. back/forward navigation)
+  useEffect(() => {
+    setFilters({
+      skill: searchParams.get('skill') || '',
+      state: searchParams.get('state') || '',
+      search: searchParams.get('search') || ''
+    });
+  }, [searchParams]);
+
+  const updateFilter = (key, value) => {
+    setSearchParams(prev => {
+      if (value) {
+        prev.set(key, value);
+      } else {
+        prev.delete(key);
+      }
+      return prev;
+    });
+  };
 
   useEffect(() => {
     const fetchArtisans = async () => {
@@ -193,18 +223,19 @@ const Discovery = () => {
               <input 
                 type="text" 
                 placeholder="Search name or skill..." 
+                value={filters.search}
                 style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.5rem', borderRadius: '10px', background: '#0f172a', border: '1px solid #334155', color: 'white', outline: 'none' }}
-                onChange={(e) => setFilters({...filters, search: e.target.value})}
+                onChange={(e) => updateFilter('search', e.target.value)}
               />
               <Search size={18} style={{ position: 'absolute', left: '10px', top: '12px', color: '#94a3b8'}} />
             </div>
 
-            <Select onChange={(e) => setFilters({...filters, skill: e.target.value})}>
+            <Select value={filters.skill} onChange={(e) => updateFilter('skill', e.target.value)}>
               <option value="">All Skills</option>
               {SKILLS.map(s => <option key={s} value={s}>{s}</option>)}
             </Select>
 
-            <Select onChange={(e) => setFilters({...filters, state: e.target.value})}>
+            <Select value={filters.state} onChange={(e) => updateFilter('state', e.target.value)}>
               <option value="">All States</option>
               {NIGERIA_STATES.map(s => <option key={s} value={s}>{s}</option>)}
             </Select>
